@@ -1,68 +1,90 @@
-# AI Video Studio (Local Edition)
+# AI-Director 🎬
 
-**A privacy-focused, offline-capable tool for creating high-quality software tutorials and educational content.**
+AI-Director is a powerful, privacy-focused, and offline-capable tool for creating high-quality software tutorials and educational video content. Leverage local AI for script generation and system voices for professional narration without cloud dependencies.
 
-This application runs locally on your machine, leveraging **Browser APIs** for Text-to-Speech and **Local LLMs (Ollama)** for intelligent script generation. No API keys or cloud subscriptions required.
+## 🚀 Key Features
 
-## 🚀 Features
+- **📝 AI Script Generator**: Connected to local Ollama instances (like `qwen3:4b` or `llama3`) for intelligent research and script writing.
+- **🗣️ Local Audio Engine**: Uses high-quality OS-native neural voices (Microsoft, macOS, etc.) via Browser TTS APIs.
+- **🎬 Production Suite**:
+  - **Teleprompter Mode**: Full-screen, auto-scrolling script reader for flawless OBS recordings.
+  - **Visual Board**: Built-in canvas editor for Title Cards and Thumbnails.
+  - **OBS Setup Guide**: Integrated instructions for optimal screen recording.
+- **🔒 Privacy First**: All data remains on your machine in local storage. No tracking, no cloud APIs.
 
-### 📝 AI Script Generator
-
-- **Local AI Integration**: Connects to your local Ollama instance (e.g., `qwen3:4b` or `llama3`) for intelligent research and writing.
-- **Smart Templates**: Fallback mode for instant, structured "How-to" guides without AI.
-- **Visual Cues**: Automatically suggests what to record (e.g., "Screen recording: Google Search").
-
-### 🗣️ Local Audio Engine
-
-- **System Voices**: Utilizes the high-quality voices already installed on your OS (Microsoft Neural, macOS Siri, etc.).
-- **Audio Manager**: Test and preview all available voices in the dedicated Audio Lab.
-- **Playback**: Listen to specific sections or the entire script before recording.
-
-### 🎬 Production Tools
-
-- **Teleprompter Mode**: Full-screen, auto-scrolling script reader designed for OBS capturing.
-- **Visual Board**: Create professional Title Cards and Thumbnails with a built-in canvas editor.
-- **OBS Integration**: Includes a built-in setup guide for optimal screen recording.
-
-### 💾 Data Management
-
-- **Script Studio**: Save and manage your projects locally.
-- **Exports**: Download scripts as JSON (backup) or human-readable Text files.
-- **Offline First**: All data is stored in your browser's LocalStorage.
+---
 
 ## 🛠️ Prerequisites
 
-1. **Node.js**: (v16 or higher)
-2. **Ollama** (Optional, for AI features):
-    - Install from [ollama.com](https://ollama.com/)
-    - Pull a localized model: `ollama pull qwen3:4b`
+- **Node.js** (v18 or higher)
+- **Ollama** (Optional, for AI script generation) - [Download here](https://ollama.com/)
+- **Docker & Docker Desktop** (Optional, for containerized deployment)
+
+---
 
 ## 🏃‍♂️ How to Run
 
-1. **Navigate to the project folder:**
+### Method 1: Local Development (Node.js)
 
-    ```bash
-    cd studio
-    ```
+1. **Install Dependencies**:
 
-2. **Install dependencies:**
+   ```bash
+   cd studio
+   npm install
+   ```
 
-    ```bash
-    npm install
-    ```
+2. **Start Development Server**:
 
-3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-    ```bash
-    npm run dev
-    ```
+3. **Access the App**:
+   Go to `http://localhost:5173` in your browser.
 
-4. **Open in Browser:**
-    Go to `http://localhost:5173` (or the port shown in your terminal).
+---
 
-## 🔒 Privacy
+### Method 2: Docker Deployment (Recommended)
+
+Run the entire stack, including the AI engine, with a single command:
+
+1. **Start Services**:
+
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. **Initialize AI Model**:
+   Pull the recommended model into the engine:
+
+   ```bash
+   docker exec -it local-ai-engine ollama pull qwen3:4b
+   ```
+
+3. **Access the App**:
+   Open **[http://localhost:8080](http://localhost:8080)**.
+
+---
+
+## 🧩 Tech Stack
+
+- **Frontend**: React 19, Vite, Tailwind CSS
+- **Icons**: Lucide React
+- **AI Integration**: Ollama API
+- **Audio**: Web Speech API (Text-to-Speech)
+- **Infrastructure**: Docker, Nginx
+
+## � Privacy & Security
 
 This tool follows a strict **"Local First"** philosophy.
+
 - **No Cloud APIs**: Your scripts and audio never leave your machine.
 - **No Tracking**: No analytics or telemetry.
 - **Your Data**: You own 100% of the generated content.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+*Created with ❤️ by the AI-Director Team.*
