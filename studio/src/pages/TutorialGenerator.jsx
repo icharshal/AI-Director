@@ -306,7 +306,13 @@ const TutorialGenerator = () => {
                     <div className="flex justify-end pt-8">
                         <button
                             onClick={() => {
-                                localStorage.setItem('currentProject', JSON.stringify(generatedScript));
+                                const newProject = { ...generatedScript, id: Date.now().toString(), date: new Date().toISOString() };
+                                localStorage.setItem('currentProject', JSON.stringify(newProject));
+
+                                // Save to history
+                                const history = JSON.parse(localStorage.getItem('savedScripts') || '[]');
+                                localStorage.setItem('savedScripts', JSON.stringify([newProject, ...history]));
+
                                 navigate('/production');
                             }}
                             className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2"

@@ -7,22 +7,20 @@ const ScriptStudio = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // In a real app, this would come from a database. 
-        // For local edition, we'll check localStorage for 'savedScripts' array 
-        // AND the current active project.
-        const allScripts = [];
-
-        // Get current project
-        const current = localStorage.getItem('currentProject');
-        if (current) {
-            try {
-                const parsed = JSON.parse(current);
-                allScripts.push({ ...parsed, id: 'current', date: new Date().toISOString() });
-            } catch (e) { }
-        }
-
-        setSavedScripts(allScripts);
+        const saved = JSON.parse(localStorage.getItem('savedScripts') || '[]');
+        setSavedScripts(saved);
     }, []);
+
+    const handleDelete = (id) => {
+        const updated = savedScripts.filter(s => s.id !== id);
+        localStorage.setItem('savedScripts', JSON.stringify(updated));
+        setSavedScripts(updated);
+
+        const current = JSON.parse(localStorage.getItem('currentProject') || '{}');
+        if (current.id === id) {
+            localStorage.removeItem('currentProject');
+        }
+    };
 
     const handleOpen = (script) => {
         localStorage.setItem('currentProject', JSON.stringify(script));
@@ -59,8 +57,8 @@ const ScriptStudio = () => {
                                 <div>
                                     <h3 className="text-lg font-bold text-white mb-1">{script.title}</h3>
                                     <div className="flex items-center gap-4 text-xs text-slate-500">
-                                        <span className="flex items-center gap-1"><Clock size={12} /> Last Modified: Just now</span>
-                                        <span className="bg-slate-800 px-2 py-0.5 rounded text-slate-400 uppercase tracking-widest text-[10px]">{script.sections.length} Sections</span>
+                                        <span className="flex items-center gap-1"><Clock size={12} /> {new Date(script.date).toLocaleDateString()} at {new Date(script.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        <span className="bg-slate-800 px-2 py-0.5 rounded text-slate-400 uppercase tracking-widest text-[10px]">{script.sections?.length || 0} Sections</span>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +70,7 @@ const ScriptStudio = () => {
                                 >
                                     <Play size={16} /> Open Production
                                 </button>
-                                <button className="p-2 hover:bg-red-500/10 text-slate-500 hover:text-red-500 rounded-lg transition-colors">
+                                <button onClick={() => handleDelete(script.id)} className="p-2 hover:bg-red-500/10 text-slate-500 hover:text-red-500 rounded-lg transition-colors" title="Delete Script">
                                     <Trash2 size={18} />
                                 </button>
                             </div>
